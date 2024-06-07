@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from .forms import LoginForm, UserCreation
@@ -36,6 +37,25 @@ def register(request):
     return render(request, 'accounts/register.html', {'form': form})
 
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+
 def main(request):
+    username = request.user.username
     course = Course.objects.all()
-    return render(request, 'lectures/main.html', {'course': course})
+    return render(request, 'lectures/main.html', {'courses': course, 'username': username})
+
+
+@login_required(login_url='unauthenticated')
+def about_us(request):
+    return render(request, template_name='lectures/about us.html')
+
+
+@login_required(login_url='unauthenticated')
+def course_detail(request, pk):
+    course = Course.objects.get(id=pk)
+    return render(request, 'lectures/detail.html', {'course': course})
+
+

@@ -2,11 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class Lecture(models.Model):
-    lecture_video = models.FileField(upload_to='lectures/', max_length=5*1024*1024)
-    title = models.CharField(max_length=100, verbose_name='Title:')
-
-
 class Course(models.Model):
     title = models.CharField('Название:', max_length=20)
     description = models.TextField('Описание:')
@@ -14,7 +9,12 @@ class Course(models.Model):
     end_date = models.DateField("Дата окончания:")
     image = models.ImageField(upload_to='images/', verbose_name='Изображения:')
     teachers = models.ForeignKey(User, related_name='teachers', on_delete=models.CASCADE)
-    lectures = models.ManyToManyField(Lecture)
+
+
+class Lecture(models.Model):
+    lecture_video = models.FileField(upload_to='lectures/', max_length=5*1024*1024)
+    title = models.CharField(max_length=100, verbose_name='Title:')
+    course = models.ForeignKey(Course, verbose_name='Course:', on_delete=models.CASCADE)
 
 
 class Assignment(models.Model):
