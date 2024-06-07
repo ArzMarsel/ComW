@@ -64,6 +64,9 @@
    <h5 class="mb-2 text-light"><strong>Дата окончания:</strong> {{ course.end_date }}</h5>
 <h5 class="mb-2 text-light"><strong>Учителя:</strong> {{ course.teachers.last_name }} {{ course.teachers.first_name }}</h5>
 <h5 class="mb-2 text-light"><STRONG>Лекции:</STRONG></h5>
+   <a href="{%  %}" class="btn btn-warning" style="width: 100 px">Мои оценки</a>
+   <a href="{%  %}" class="btn btn-warning" style="width: 100 px">Задания</a>
+   <a href="{%  %}" class="btn btn-warning" style="width: 100 px">Мои ответы</a>
 <div id="carouselExampleIndicators" class="carousel slide" style="width: 50%">
   <div class="carousel-indicators">
     {% for lecture in lecture %}

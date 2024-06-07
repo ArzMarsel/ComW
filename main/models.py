@@ -7,8 +7,12 @@ class Course(models.Model):
     description = models.TextField('Описание:')
     start_date = models.DateField('Дата начала:')
     end_date = models.DateField("Дата окончания:")
-    image = models.ImageField(upload_to='images/', verbose_name='Изображения:')
     teachers = models.ForeignKey(User, related_name='teachers', on_delete=models.CASCADE)
+
+
+class CourseImage(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/', verbose_name='Изображения:')
 
 
 class Lecture(models.Model):
@@ -21,6 +25,7 @@ class Assignment(models.Model):
     title = models.CharField('Название задания:', max_length=255)
     description = models.TextField('Описание задания:')
     due_date = models.DateField('Срок сдачи:')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 
 class Grade(models.Model):
@@ -28,6 +33,7 @@ class Grade(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     grade = models.PositiveIntegerField('Оценка', null=True, blank=True)
     comment = models.TextField('Комментарии', null=True, blank=True)
+    date1 = models.DateField(verbose_name='Date of grade:', auto_now_add=True)
 
 
 class Connect(models.Model):
@@ -40,4 +46,4 @@ class Answer(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     content = models.TextField(verbose_name='answer')
     file = models.FileField(upload_to='answers/')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Date of create:')
