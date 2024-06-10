@@ -44,8 +44,13 @@ def logout_view(request):
 
 def main(request):
     user = request.user
-    course = Course.objects.all()
-    return render(request, 'lectures/main.html', {'course': course, 'user': user})
+    courses = Course.objects.all().prefetch_related('courseimage_set')
+    course_with_images = [
+        (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
+        for course in courses
+    ]
+
+    return render(request, 'lectures/main.html', {'course_with_images': course_with_images, 'user': user})
 
 
 @login_required(login_url='unauthenticated')
@@ -77,20 +82,28 @@ def course_detail2(request, pk):
 @login_required(login_url='unauthenticated')
 def my_courses(request):
     user = request.user
-    course = Course.objects.filter(teachers=user)
-    return render(request, 'lectures/my courses.html', {'course': course, 'user': user})
+    courses = Course.objects.filter(teachers=user).prefetch_related('courseimage_set')
+    course_with_images = [
+        (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
+        for course in courses
+    ]
+    return render(request, 'lectures/my courses.html', {'course_with_images': course_with_images, 'user': user})
 
 
 @login_required(login_url='unauthenticated')
 def my_courses2(request):
     user = request.user
-    connect = Connect.objects.filter(user=user)
-    return render(request, 'lectures/my courses2.html', {'connect': connect, 'user': user})
+    courses = Connect.objects.filter(user=user).prefetch_related('courseimage_set')
+    course_with_images = [
+        (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
+        for course in courses
+    ]
+    return render(request, 'lectures/my courses.html', {'course_with_images': course_with_images, 'user': user})
 
 
 @login_required(login_url='unauthenticated')
-def assignments(request):
-    course = get_object_or_404(Course, )
+def assignments(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
     assign = Assignment.objects.filter(course=course)
     return render(request, 'lectures/assignments.html', {'assign': assign})
 
@@ -100,5 +113,11 @@ def my_courses(request):
     course = get_object_or_404(Course, )
     assign = Assignment.objects.filter(course=course)
     return render(request, 'lectures/.html', {'assign': assign})
+
+
+@login_required(login_url="unauthenticated")
+def connect_to_corsina(request):
+    cors = Connect.objects.filter(user=request.user)
+    return render(request,'restaurant/corsina.html', {'cors': cors})
 
 

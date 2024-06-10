@@ -34,7 +34,7 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
-          {% if user.status == "teacher" %}
+          {% if user.status == teacher %}
         <li class="nav-item">
           <a class="nav-link text-warning" href="#"><strong>Мои курсы</strong></a>
         </li>
@@ -73,7 +73,7 @@
   <div class="carousel-inner">
     {% for lecture in lecture %}
       <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img src="{{ lecture.lecture.url }}" class="d-block w-100" alt="...">
+        <img src="{{ lecture.lecture_video.url }}" class="d-block w-100" alt="...">
       </div>
     {% endfor %}
   </div>

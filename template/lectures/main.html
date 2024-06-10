@@ -34,16 +34,16 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
-          {% if user.user_status == teacher %}
+          {% if user.user_status == "teacher" %}
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'my courses' %}"><strong>Мои курсы</strong></a>
         </li>
           {% endif %}
-          {% if user.user_status == student %}
-        <li class="nav-item">
-          <a class="nav-link text-warning" href="{% url 'my courses2' %}"><strong>Мои курсы</strong></a>
-        </li>
-          {% endif %}
+          {% if user.user_status == "student" %}
+<li class="nav-item">
+    <a class="nav-link text-warning" href="{% url 'my courses2' %}"><strong>Мои курсы</strong></a>
+</li>
+{% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>
             Eщё
@@ -67,7 +67,7 @@
 
        <div class="container">
            {% if user.is_authenticated %}
-           <h1 align="center" class="text-warning"><strong>Добро пожаловать, {{ user.username }}!</strong></h1>
+           <h1 align="center" class="text-warning"><strong>Добро пожаловать, {{ user.user_status }}!</strong></h1>
            <h5 align="center" class="text-warning"><strong>Теперь вы можете использовать все функции системы онлайн-обучения!</strong></h5>
            <p align="center" class="text-warning"><strong>Выберите интересующий вас раздел в навигационной панели сверху или выберите интересующие вас курсы снизу!</strong></p>
            {% else %}
@@ -79,24 +79,26 @@
 <div class="row">
     <div class="col">
         <div id="news-list" class="row">
-            {% for course in course %}
+            {% for course, image_url in course_with_images %}
             <div class="col-md-6">
-                <div class="card bg-white mb-5 mt-3 border-0 h-100 d-flex align-items-stretch text-black">
-                    <img src="{{ course.image }}" class="card-img-top" alt="">
+                <div class="card bg-white mb-5 mt-2 border h-100 d-flex align-items-stretch text-black">
+                    {% if image_url %}
+                    <img src="{{ image_url }}" class="card-img-top" alt="{{ course.title }} " style="width: 100%">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title text-warning">{{ course.title }}</h5>
                         <p class="card-text text-warning">{{ course.description }}</p>
-                        <h6 class="card-subtitle mb-2 text-warning ">Дата начала: {{ course.start_date }}</h6>
+                        <h6 class="card-subtitle mb-2 text-warning">Дата начала: {{ course.start_date }}</h6>
                         <h6 class="card-subtitle mb-2 text-warning">Дата окончания: {{ course.end_date }}</h6>
                         <a href="{% url 'detail' course.id %}" class="btn btn-warning text-white">Подробнее</a>
-        </div>
+                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
 </div>
-   {% endif %}
+{% endif %}
    <footer>
    </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
