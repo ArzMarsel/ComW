@@ -4,8 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django_recaptcha.fields import ReCaptchaField
 
-from .models import Answer
-
 
 class AssignmentForm(forms.ModelForm):
     class Meta:
@@ -67,11 +65,11 @@ class UserCreation(UserCreationForm):
             }
         )
     )
-    status = forms.ChoiceField(choices=status_choices)
+    user_status = forms.ChoiceField(choices=status_choices)
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'status']
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'user_status']
 
 
 class LoginForm(forms.Form):
@@ -105,5 +103,5 @@ class LectureForm(forms.ModelForm):
 
 class AnswerForm(forms.ModelForm):
     class Meta:
-        model = Answer
+        model = models.Answer
         fields = ['content', 'file']

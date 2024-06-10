@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import LoginForm, UserCreation
-from .models import Course, Lecture, Answer, Grade, Assignment
+from .models import Course, Lecture, Answer, Grade, Assignment, Connect
 
 
 def unauthenticated(request):
@@ -43,9 +43,9 @@ def logout_view(request):
 
 
 def main(request):
-    username = request.user.username
+    user = request.user
     course = Course.objects.all()
-    return render(request, 'lectures/main.html', {'courses': course, 'username': username})
+    return render(request, 'lectures/main.html', {'course': course, 'user': user})
 
 
 @login_required(login_url='unauthenticated')
@@ -56,6 +56,49 @@ def about_us(request):
 @login_required(login_url='unauthenticated')
 def course_detail(request, pk):
     course = Course.objects.get(id=pk)
-    return render(request, 'lectures/detail.html', {'course': course})
+    lecture = Lecture.objects.filter(course=course)
+    return render(request, 'lectures/detail.html', {'course': course, 'lecture': lecture})
+
+
+@login_required(login_url='unauthenticated')
+def course_detail1(request, pk):
+    course = Course.objects.get(id=pk)
+    lecture = Lecture.objects.filter(course=course)
+    return render(request, 'lectures/detail1.html', {'course': course, 'lecture': lecture})
+
+
+@login_required(login_url='unauthenticated')
+def course_detail2(request, pk):
+    course = Course.objects.get(id=pk)
+    lecture = Lecture.objects.filter(course=course)
+    return render(request, 'lectures/detai2l.html', {'course': course, 'lecture': lecture})
+
+
+@login_required(login_url='unauthenticated')
+def my_courses(request):
+    user = request.user
+    course = Course.objects.filter(teachers=user)
+    return render(request, 'lectures/my courses.html', {'course': course, 'user': user})
+
+
+@login_required(login_url='unauthenticated')
+def my_courses2(request):
+    user = request.user
+    connect = Connect.objects.filter(user=user)
+    return render(request, 'lectures/my courses2.html', {'connect': connect, 'user': user})
+
+
+@login_required(login_url='unauthenticated')
+def assignments(request):
+    course = get_object_or_404(Course, )
+    assign = Assignment.objects.filter(course=course)
+    return render(request, 'lectures/assignments.html', {'assign': assign})
+
+
+@login_required(login_url='unauthenticated')
+def my_courses(request):
+    course = get_object_or_404(Course, )
+    assign = Assignment.objects.filter(course=course)
+    return render(request, 'lectures/.html', {'assign': assign})
 
 
