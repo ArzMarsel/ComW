@@ -34,16 +34,16 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
-          {% if user.user_status == 'teacher' %}
+          {% if profile.user_status == 'teacher' %}
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'my courses' %}"><strong>Мои курсы</strong></a>
         </li>
           {% endif %}
-          {% if user.user_status == 'student' %}
-<li class="nav-item">
-    <a class="nav-link text-warning" href="{% url 'my courses2' %}"><strong>Мои курсы</strong></a>
-</li>
-{% endif %}
+          {% if profile.user_status == 'student' %}
+          <li class="nav-item">
+              <a class="nav-link text-warning" href="{% url 'my courses2' %}"><strong>Мои курсы</strong></a>
+          </li>
+          {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>
             Eщё

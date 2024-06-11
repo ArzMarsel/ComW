@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import LoginForm, UserCreation
-from .models import Course, Lecture, Answer, Grade, Assignment, Connect
+from .models import Course, Lecture, Answer, Grade, Assignment, Connect, Profile
 
 
 def unauthenticated(request):
@@ -43,7 +43,7 @@ def logout_view(request):
 
 
 def main(request):
-    user = request.user
+    user = get_object_or_404(Profile, )
     courses = Course.objects.all().prefetch_related('courseimage_set')
     course_with_images = [
         (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
