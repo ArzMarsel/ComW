@@ -108,13 +108,6 @@ def assignments(request, course_id):
     return render(request, 'lectures/assignments.html', {'assign': assign})
 
 
-@login_required(login_url='unauthenticated')
-def my_courses(request):
-    course = get_object_or_404(Course, )
-    assign = Assignment.objects.filter(course=course)
-    return render(request, 'lectures/.html', {'assign': assign})
-
-
 @login_required(login_url="unauthenticated")
 def connect_to_corsina(request):
     cors = Connect.objects.filter(user=request.user)
