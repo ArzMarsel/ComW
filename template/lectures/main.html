@@ -34,12 +34,12 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
-          {% if profile.user_status == 'teacher' %}
+          {% if user.user_status == 'teacher' %}
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'my courses' %}"><strong>Мои курсы</strong></a>
         </li>
           {% endif %}
-          {% if profile.user_status == 'student' %}
+          {% if user.user_status == 'student' %}
           <li class="nav-item">
               <a class="nav-link text-warning" href="{% url 'my courses2' %}"><strong>Мои курсы</strong></a>
           </li>
@@ -67,7 +67,7 @@
 
        <div class="container">
            {% if user.is_authenticated %}
-           <h1 align="center" class="text-warning"><strong>Добро пожаловать, {{ user.username }}!</strong></h1>
+           <h1 align="center" class="text-warning"><strong>Добро пожаловать, {{ user.user.username }}!</strong></h1>
            <h5 align="center" class="text-warning"><strong>Теперь вы можете использовать все функции системы онлайн-обучения!</strong></h5>
            <p align="center" class="text-warning"><strong>Выберите интересующий вас раздел в навигационной панели сверху или выберите интересующие вас курсы снизу!</strong></p>
            {% else %}

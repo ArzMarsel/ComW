@@ -66,8 +66,7 @@
    </header>
 
        <div class="container">
-           {% if user.is_authenticated %}
-           <h1 align="center" class="text-warning"><strong>Добро пожаловать, {{ user.user_status }}!</strong></h1>
+           <h1 align="center" class="text-warning"><strong>Добро пожаловать, {{ user.user.username }}!</strong></h1>
            <h5 align="center" class="text-warning"><strong>Теперь вы можете использовать все функции системы онлайн-обучения!</strong></h5>
            <p align="center" class="text-warning"><strong>Выберите интересующий вас раздел в навигационной панели сверху или выберите интересующие вас курсы снизу!</strong></p>
            {% else %}
@@ -75,7 +74,6 @@
         <h5 align="center" class="text-warning"><strong>Для того, чтобы использовать все функции сайта вам нужно зарегистрироваться!</strong></h5>
               {% endif %}
        </div>
-{% if user.is_authenticated %}
 <div class="row">
     <div class="col">
         <div id="news-list" class="row">

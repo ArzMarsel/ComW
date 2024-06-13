@@ -20,7 +20,6 @@ class GradeForm(forms.ModelForm):
 
 
 class UserCreation(UserCreationForm):
-    # captcha = ReCaptchaField()
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -64,10 +63,11 @@ class UserCreation(UserCreationForm):
 
     class Meta:
         model = Profile
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'user_status']
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']
 
 
 class ProfileForm(forms.Form):
+    # captcha = ReCaptchaField()
     user = UserCreationForm()
     status_choices = (
         ('user', '-'),
@@ -78,7 +78,7 @@ class ProfileForm(forms.Form):
 
     class Meta:
         model = Profile
-        fields = ['user', 'user.user_status']
+        fields = ['user', 'user_status']
 
 
 class LoginForm(forms.Form):
