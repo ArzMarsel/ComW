@@ -1,9 +1,8 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-
-from .forms import LoginForm, UserCreation
-from .models import Course, Lecture, Answer, Grade, Assignment, Connect
+from .forms import LoginForm, UserCreation, ProfileForm
+from .models import Course, Lecture, Answer, Grade, Assignment, Connect, Profile
 
 
 def unauthenticated(request):
@@ -29,12 +28,15 @@ def user_login(request):
 def register(request):
     if request.method == 'POST':
         form = UserCreation(request.POST)
-        if form.is_valid():
+        form1 = ProfileForm(request.POST)
+        if form.is_valid() and form1.is_valid():
             user = form.save()
+            user1 = form1.save()
             return redirect('login')
     else:
         form = UserCreation()
-    return render(request, 'accounts/register.html', {'form': form})
+        form1 = ProfileForm()
+    return render(request, 'accounts/register.html', {'form1': form1, 'form': form})
 
 
 def logout_view(request):
@@ -42,10 +44,19 @@ def logout_view(request):
     return redirect('/')
 
 
+def start(request):
+    return render(request, 'lectures/start.html')
+
+
+@login_required(login_url='unauthenticated')
 def main(request):
-    user = request.user
-    course = Course.objects.all()
-    return render(request, 'lectures/main.html', {'course': course, 'user': user})
+    user = Profile.objects.filter(user=request.user)
+    courses = Course.objects.all().prefetch_related('courseimage_set')
+    course_with_images = [
+        (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
+        for course in courses
+    ]
+    return render(request, 'lectures/main.html', {'course_with_images': course_with_images, 'user': user})
 
 
 @login_required(login_url='unauthenticated')
@@ -76,29 +87,36 @@ def course_detail2(request, pk):
 
 @login_required(login_url='unauthenticated')
 def my_courses(request):
-    user = request.user
-    course = Course.objects.filter(teachers=user)
-    return render(request, 'lectures/my courses.html', {'course': course, 'user': user})
+    user = Profile.objects.filter(user=request.user)
+    courses = Course.objects.filter(teachers=user).prefetch_related('courseimage_set')
+    course_with_images = [
+        (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
+        for course in courses
+    ]
+    return render(request, 'lectures/my courses.html', {'course_with_images': course_with_images, 'user': user})
 
 
 @login_required(login_url='unauthenticated')
 def my_courses2(request):
-    user = request.user
-    connect = Connect.objects.filter(user=user)
-    return render(request, 'lectures/my courses2.html', {'connect': connect, 'user': user})
+    user = Profile.objects.filter(user=request.user)
+    course1 = Connect.objects.filter(user=user)
+    courses = course1.course.prefetch_related('courseimage_set')
+    course_with_images = [
+        (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
+        for course in courses
+    ]
+    return render(request, 'lectures/my courses.html', {'course_with_images': course_with_images, 'user': user})
 
 
 @login_required(login_url='unauthenticated')
-def assignments(request):
-    course = get_object_or_404(Course, )
+def assignments(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
     assign = Assignment.objects.filter(course=course)
     return render(request, 'lectures/assignments.html', {'assign': assign})
 
 
-@login_required(login_url='unauthenticated')
-def my_courses(request):
-    course = get_object_or_404(Course, )
-    assign = Assignment.objects.filter(course=course)
-    return render(request, 'lectures/.html', {'assign': assign})
-
+@login_required(login_url="unauthenticated")
+def connect_to_corsina(request):
+    cors = Connect.objects.filter(user=request.user)
+    return render(request, 'restaurant/corsina.html', {'cors': cors})
 

@@ -47,3 +47,13 @@ class Answer(models.Model):
     content = models.TextField(verbose_name='answer')
     file = models.FileField(upload_to='answers/')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Date of create:')
+
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status_choices = (
+        ('user', '-'),
+        ('teacher', 'Учитель'),
+        ('student', 'Ученик')
+    )
+    user_status = models.CharField(choices=status_choices, max_length=20)

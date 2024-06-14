@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django_recaptcha.fields import ReCaptchaField
 
+from .models import Profile
+
 
 class AssignmentForm(forms.ModelForm):
     class Meta:
@@ -18,13 +20,6 @@ class GradeForm(forms.ModelForm):
 
 
 class UserCreation(UserCreationForm):
-    status_choices = (
-        ('user', '-'),
-        ('teacher', 'Учитель'),
-        ('student', 'Ученик')
-    )
-
-    # captcha = ReCaptchaField()
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -65,11 +60,25 @@ class UserCreation(UserCreationForm):
             }
         )
     )
+
+    class Meta:
+        model = Profile
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']
+
+
+class ProfileForm(forms.Form):
+    # captcha = ReCaptchaField()
+    user = UserCreationForm()
+    status_choices = (
+        ('user', '-'),
+        ('teacher', 'Учитель'),
+        ('student', 'Ученик')
+    )
     user_status = forms.ChoiceField(choices=status_choices)
 
     class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'user_status']
+        model = Profile
+        fields = ['user', 'user_status']
 
 
 class LoginForm(forms.Form):

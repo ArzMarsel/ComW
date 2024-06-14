@@ -34,7 +34,7 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
-          {% if user.status == "teacher" %}
+          {% if user.status == teacher %}
         <li class="nav-item">
           <a class="nav-link text-warning" href="#"><strong>Мои курсы</strong></a>
         </li>
@@ -62,7 +62,7 @@
    <h5 class="mb-2 text-light"><strong>Описание курса:</strong> {{ course.description }}</h5>
    <h5 class="mb-2 text-light "><strong>Дата начала:</strong> {{ course.start_date }}</h5>
    <h5 class="mb-2 text-light"><strong>Дата окончания:</strong> {{ course.end_date }}</h5>
-<h5 class="mb-2 text-light"><strong>Учителя:</strong> {{ course.teachers.last_name }} {{ course.teachers.first_name }}</h5>
+<h5 class="mb-2 text-light"><strong>Учитель:</strong> {{ course.teachers.last_name }} {{ course.teachers.first_name }}</h5>
 <h5 class="mb-2 text-light"><STRONG>Лекции:</STRONG></h5>
 <div id="carouselExampleIndicators" class="carousel slide" style="width: 50%">
   <div class="carousel-indicators">
@@ -73,7 +73,7 @@
   <div class="carousel-inner">
     {% for lecture in lecture %}
       <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img src="{{ lecture.lecture.url }}" class="d-block w-100" alt="...">
+        <img src="{{ lecture.lecture_video.url }}" class="d-block w-100" alt="...">
       </div>
     {% endfor %}
   </div>

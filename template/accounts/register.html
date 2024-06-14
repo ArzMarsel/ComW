@@ -22,23 +22,38 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+        }
+        .login-form-container {
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px; /* Добавляем отступ между формами */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Добавляем тень */
+        }
+        /* Стили для полей ввода */
+        input[type="text"],
+        input[type="password"] {
+            height: 30px; /* Устанавливаем высоту поля ввода */
+            text-align: center; /* Выравниваем текст по центру */
+            margin-bottom: 10px; /* Добавляем отступ между полями ввода */
+        }
     </style>
 </head>
 <body>
     <div class="form-container text-center">
-        <h1 class="text-warning"><strong>Sign up</strong></h1>
-        <form method="post">
-
-            {% csrf_token %}
-        <p align="center" style="width: 50%">{{ form.username }}</p>
-        <p align="center" style="width: 50%">{{ form.last_name }}</p>
-        <p align="center" style="width: 50%">{{ form.first_name }}</p>
-        <p align="center" style="width: 50%">{{ form.password1 }}</p>
-        <p align="center" style="width: 50%">{{ form.password2 }}</p>
-        <p align="center" style="width: 50%">{{ form.user_status }}</p>
-        <button type="submit" class="btn btn-warning">Зарегистрироваться</button>
-        <p>Если уже есть аккаунт <a href="{% url 'login' %}" class="link-warning">войдите</a> в него!</p>
-        </form>
+        <div class="bg-white login-form-container">
+            <h1 class="text-warning"><strong>Sign up</strong></h1>
+            <form method="post">
+                {% csrf_token %}
+                <p>{{ form.username }}</p>
+                <p>{{ form.last_name }}</p>
+                <p>{{ form.first_name }}</p>
+                <p>{{ form.password1 }}</p>
+                <p>{{ form.password2 }}</p>
+                <p>{{ form1.user_status }}</p>
+                <button type="submit" class="btn btn-warning">Зарегистрироваться</button>
+            </form>
+            <p>Если уже есть аккаунт <a href="{% url 'login' %}" class="link-warning">войдите</a> в него!</p>
+        </div>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
