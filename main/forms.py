@@ -19,7 +19,8 @@ class GradeForm(forms.ModelForm):
         fields = '__all__'
 
 
-class UserCreation(UserCreationForm):
+class SignUpForm(UserCreationForm):
+    user_status = forms.ChoiceField(choices=Profile.status_choices, required=True, label="Статус")
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -62,8 +63,15 @@ class UserCreation(UserCreationForm):
     )
 
     class Meta:
-        model = Profile
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']
+        model = User
+        fields = ('username', 'password1', 'password2', 'last_name', 'first_name', 'user_status')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            Profile.objects.create(user=user, user_status=self.cleaned_data['user_status'])
+        return user
 
 
 class ProfileForm(forms.Form):

@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import LoginForm, UserCreation, ProfileForm
+from .forms import LoginForm, SignUpForm
 from .models import Course, Lecture, Answer, Grade, Assignment, Connect, Profile
 
 
@@ -27,16 +27,14 @@ def user_login(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreation(request.POST)
-        form1 = ProfileForm(request.POST)
-        if form.is_valid() and form1.is_valid():
+        form = SignUpForm(request.POST)
+        if form.is_valid():
             user = form.save()
-            user1 = form1.save()
+            login(request, user)
             return redirect('login')
     else:
-        form = UserCreation()
-        form1 = ProfileForm()
-    return render(request, 'accounts/register.html', {'form1': form1, 'form': form})
+        form = SignUpForm()
+    return render(request, 'accounts/register.html', {'form': form})
 
 
 def logout_view(request):
