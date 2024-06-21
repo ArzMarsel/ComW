@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, AssignmentForm, LectureForm, GradeForm, AnswerForm
 from .models import Course, Lecture, Answer, Grade, Assignment, Connect, Profile
 
 
@@ -48,13 +48,13 @@ def start(request):
 
 @login_required(login_url='unauthenticated')
 def main(request):
-    user = Profile.objects.filter(user=request.user)
+    prof = Profile.objects.filter(user=request.user)
     courses = Course.objects.all().prefetch_related('courseimage_set')
     course_with_images = [
         (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
         for course in courses
     ]
-    return render(request, 'lectures/main.html', {'course_with_images': course_with_images, 'user': user})
+    return render(request, 'lectures/main.html', {'course_with_images': course_with_images, 'prof': prof})
 
 
 @login_required(login_url='unauthenticated')
@@ -85,13 +85,13 @@ def course_detail2(request, pk):
 
 @login_required(login_url='unauthenticated')
 def my_courses(request):
-    user = Profile.objects.filter(user=request.user)
-    courses = Course.objects.filter(teachers=user).prefetch_related('courseimage_set')
+    prof = Profile.objects.filter(user=request.user)
+    courses = Course.objects.filter(teachers=request.user).prefetch_related('courseimage_set')
     course_with_images = [
         (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
         for course in courses
     ]
-    return render(request, 'lectures/my courses.html', {'course_with_images': course_with_images, 'user': user})
+    return render(request, 'lectures/my courses.html', {'course_with_images': course_with_images, 'prof': prof})
 
 
 @login_required(login_url='unauthenticated')
@@ -107,14 +107,71 @@ def my_courses2(request):
 
 
 @login_required(login_url='unauthenticated')
-def assignments(request, course_id):
-    course = get_object_or_404(Course, id=course_id)
+def assignment_list(request, pk):
+    course = get_object_or_404(Course, pk=pk)
     assign = Assignment.objects.filter(course=course)
-    return render(request, 'lectures/assignments.html', {'assign': assign})
+    return render(request, 'lectures/assignments.html', {'assign': assign, 'course': course})
 
 
 @login_required(login_url="unauthenticated")
 def connect_to_corsina(request):
     cors = Connect.objects.filter(user=request.user)
-    return render(request, 'restaurant/corsina.html', {'cors': cors})
+    return render(request, 'lectures/corsina.html', {'cors': cors})
 
+
+@login_required(login_url="unauthenticated")
+def add_assign(request):
+    if request.method == 'POST':
+        form = AssignmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = AssignmentForm()
+    return render(request, 'lectures/add assign.html', {'form': form})
+
+
+@login_required(login_url="unauthenticated")
+def add_grade(request):
+    if request.method == 'POST':
+        form = GradeForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = GradeForm()
+    return render(request, 'lectures/add assign.html', {'form': form})
+
+
+@login_required(login_url="unauthenticated")
+def add_answer(request):
+    if request.method == 'POST':
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = AnswerForm()
+    return render(request, 'lectures/add assign.html', {'form': form})
+
+
+@login_required(login_url="unauthenticated")
+def add_lecture(request):
+    if request.method == 'POST':
+        form = LectureForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = LectureForm()
+    return render(request, 'lectures/add lecture.html', {'form': form})
+
+
+@login_required(login_url="unauthenticated")
+def lectures_list(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    lectures = Lecture.objects.filter(course=course)
+    return render(request, 'lectures/lectures.html', {'course': course, 'lectures': lectures})
+
+
+@login_required(login_url="unauthenticated")
+def answers_list(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    answers = Answer.objects.filter(course=course)
+    return render(request, 'lectures/lectures.html', {'course': course, 'answers': answers})

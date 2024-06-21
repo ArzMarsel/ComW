@@ -35,14 +35,14 @@
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-warning" href="#"><strong>Мои курсы</strong></a>
+          <a class="nav-link text-warning" href="{% url 'my courses' %}"><strong>Мои курсы</strong></a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>
             Eщё
           </strong></a>
           <ul class="dropdown-menu">
-              {% if user.is_autorized %}
+              {% if user.is_authenticated %}
               <li><a class="dropdown-item text-warning" href="#"><strong>Выход</strong></a></li>
               {% else %}
             <li><a class="dropdown-item text-warning" href="{% url 'register' %}"><strong>Регистрация</strong></a></li>

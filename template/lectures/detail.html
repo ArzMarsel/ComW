@@ -34,11 +34,6 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
-          {% if user.status == teacher %}
-        <li class="nav-item">
-          <a class="nav-link text-warning" href="#"><strong>Мои курсы</strong></a>
-        </li>
-          {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>
             Eщё
@@ -64,27 +59,3 @@
    <h5 class="mb-2 text-light"><strong>Дата окончания:</strong> {{ course.end_date }}</h5>
 <h5 class="mb-2 text-light"><strong>Учитель:</strong> {{ course.teachers.last_name }} {{ course.teachers.first_name }}</h5>
 <h5 class="mb-2 text-light"><STRONG>Лекции:</STRONG></h5>
-<div id="carouselExampleIndicators" class="carousel slide" style="width: 50%">
-  <div class="carousel-indicators">
-    {% for lecture in lecture %}
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
-    {% endfor %}
-  </div>
-  <div class="carousel-inner">
-    {% for lecture in lecture %}
-      <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img src="{{ lecture.lecture_video.url }}" class="d-block w-100" alt="...">
-      </div>
-    {% endfor %}
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-</body>
-</html>
