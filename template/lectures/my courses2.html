@@ -34,6 +34,11 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
+          {% if user.status == "teacher" %}
+        <li class="nav-item">
+          <a class="nav-link text-warning" href="#"><strong>Мои курсы</strong></a>
+        </li>
+          {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>
             Eщё
@@ -57,5 +62,10 @@
    <h5 class="mb-2 text-light"><strong>Описание курса:</strong> {{ course.description }}</h5>
    <h5 class="mb-2 text-light "><strong>Дата начала:</strong> {{ course.start_date }}</h5>
    <h5 class="mb-2 text-light"><strong>Дата окончания:</strong> {{ course.end_date }}</h5>
-<h5 class="mb-2 text-light"><strong>Учитель:</strong> {{ course.teachers.last_name }} {{ course.teachers.first_name }}</h5>
+<h5 class="mb-2 text-light"><strong>Учителя:</strong> {{ course.teachers.last_name }} {{ course.teachers.first_name }}</h5>
 <h5 class="mb-2 text-light"><STRONG>Лекции:</STRONG></h5>
+  <a href="{% url '' %}" class="btn btn-warning" style="width: 100 px">Мои оценки</a>
+   <a href="{% url '' %}" class="btn btn-warning" style="width: 100 px">Задания</a>
+   <a href="{% url '' %}" class="btn btn-warning" style="width: 100 px">Мои ответы</a>
+</body>
+</html>
