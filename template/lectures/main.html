@@ -34,11 +34,9 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
-          {% if user.user_status == 'teacher' %}
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'my courses' %}"><strong>Мои курсы</strong></a>
         </li>
-          {% endif %}
           {% if user.user_status == 'student' %}
           <li class="nav-item">
               <a class="nav-link text-warning" href="{% url 'my courses2' %}"><strong>Мои курсы</strong></a>

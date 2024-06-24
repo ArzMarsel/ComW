@@ -41,14 +41,13 @@
 <body>
     <div class="form-container text-center">
         <div class="bg-white login-form-container">
-            <h1 class="text-warning"><strong>Login</strong></h1>
+            <h1 class="text-warning"><strong>Добавить задание</strong></h1>
                 <form method="post">
             {% csrf_token %}
-            <p>{{ form.username }}</p>
-            <p>{{ form.password1 }}</p>
-                <button type="submit" class="btn btn-warning">Войти</button>
+            <p>{{ form.title }}</p>
+            <p>{{ form.description }}</p>
+                <button type="submit" class="btn btn-warning">Добавить</button>
             </form>
-            <p>Нет аккаунта? <a href="{% url 'register' %}" class="link-warning">зарегистрируйтесь</a></p>
         </div>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

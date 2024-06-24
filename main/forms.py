@@ -3,23 +3,57 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django_recaptcha.fields import ReCaptchaField
-
 from .models import Profile
 
 
 class AssignmentForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Название'
+            }
+        )
+    )
+    description = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Описание'
+            }
+        )
+    )
+
     class Meta:
         model = models.Assignment
-        fields = ['title', 'description', 'due_date']
+        fields = '__all__'
 
 
 class GradeForm(forms.ModelForm):
+    grade = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Grade'
+            }
+        )
+    )
+    comment = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Comment'
+            }
+        )
+    )
+
     class Meta:
         model = models.Grade
         fields = '__all__'
 
 
-class UserCreation(UserCreationForm):
+class SignUpForm(UserCreationForm):
+    user_status = forms.ChoiceField(choices=Profile.status_choices, required=True, label="Статус")
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -62,8 +96,15 @@ class UserCreation(UserCreationForm):
     )
 
     class Meta:
-        model = Profile
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']
+        model = User
+        fields = ('username', 'password1', 'password2', 'last_name', 'first_name', 'user_status')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            Profile.objects.create(user=user, user_status=self.cleaned_data['user_status'])
+        return user
 
 
 class ProfileForm(forms.Form):
@@ -105,12 +146,46 @@ class LoginForm(forms.Form):
 
 
 class LectureForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Title'
+            }
+        )
+    )
+    lecture_video = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'File'
+            }
+        )
+    )
+
     class Meta:
         model = models.Lecture
         fields = '__all__'
 
 
 class AnswerForm(forms.ModelForm):
+    answer = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Answer'
+            }
+        )
+    )
+    content = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Content'
+            }
+        )
+    )
+
     class Meta:
         model = models.Answer
-        fields = ['content', 'file']
+        fields = '__all__'
