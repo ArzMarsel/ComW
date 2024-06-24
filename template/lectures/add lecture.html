@@ -32,7 +32,7 @@
         /* Стили для полей ввода */
         input[type="text"],
         input[type="password"] {
-            height: 30px; /* Устанавливаем высоту поля ввода */
+            height: 40px; /* Устанавливаем высоту поля ввода */
             text-align: center; /* Выравниваем текст по центру */
             margin-bottom: 10px; /* Добавляем отступ между полями ввода */
         }
@@ -41,12 +41,12 @@
 <body>
     <div class="form-container text-center">
         <div class="bg-white login-form-container">
-            <h1 class="text-warning"><strong>Login</strong></h1>
+            <h1 class="text-warning"><strong>Добавить лекцию</strong></h1>
                 <form method="post">
             {% csrf_token %}
             <p>{{ form.title }}</p>
             <p style="height: 50%">{{ form.lecture_video }}</p>
-                <button type="submit" class="btn btn-warning">Добавить</button>
+                <button type="submit" class="btn btn-warning ext-light">Добавить</button>
             </form>
         </div>
     </div>

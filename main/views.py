@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.checks import Error
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import LoginForm, SignUpForm, AssignmentForm, LectureForm, GradeForm, AnswerForm
 from .models import Course, Lecture, Answer, Grade, Assignment, Connect, Profile
@@ -122,14 +123,17 @@ def connect_to_corsina(request):
 
 @login_required(login_url="unauthenticated")
 def add_assign(request, pk):
+    course = get_object_or_404(Course, pk=pk)
     if request.method == 'POST':
-        form = AssignmentForm(request.POST)
-        form.course = get_object_or_404(Course, pk=pk)
+        form = AssignmentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            redirect('my courses')
+            assignment = form.save(commit=False)
+            assignment.course = course
+            assignment.save()
+            return redirect('my courses')
     else:
         form = AssignmentForm()
+
     return render(request, 'lectures/add assign.html', {'form': form})
 
 
