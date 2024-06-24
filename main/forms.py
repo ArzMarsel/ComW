@@ -3,17 +3,50 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django_recaptcha.fields import ReCaptchaField
-
 from .models import Profile
 
 
 class AssignmentForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Название'
+            }
+        )
+    )
+    description = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Описание'
+            }
+        )
+    )
+
     class Meta:
         model = models.Assignment
-        fields = ['title', 'description', 'due_date']
+        fields = '__all__'
 
 
 class GradeForm(forms.ModelForm):
+    grade = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Grade'
+            }
+        )
+    )
+    comment = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Comment'
+            }
+        )
+    )
+
     class Meta:
         model = models.Grade
         fields = '__all__'
@@ -113,12 +146,46 @@ class LoginForm(forms.Form):
 
 
 class LectureForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Title'
+            }
+        )
+    )
+    lecture_video = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'File'
+            }
+        )
+    )
+
     class Meta:
         model = models.Lecture
         fields = '__all__'
 
 
 class AnswerForm(forms.ModelForm):
+    answer = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Answer'
+            }
+        )
+    )
+    content = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Content'
+            }
+        )
+    )
+
     class Meta:
         model = models.Answer
-        fields = ['content', 'file']
+        fields = '__all__'
