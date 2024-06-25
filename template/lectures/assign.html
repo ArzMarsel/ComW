@@ -75,6 +75,8 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ assign.title }}</h5>
                         <p class="card-text text-warning">{{ assign.description }}</p>
+                        <h6 class="card-text text-secondary">{{ assign.due_date }}</h6>
+                        <a href="{% url 'add answer' assign.id %}" class="btn btn-warning text-white mt-2"><strong>+</strong> Добавить ответ</a><br>
                     </div>
                 </div>
             {% endfor %}
