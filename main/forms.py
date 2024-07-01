@@ -8,25 +8,22 @@ from .models import Profile
 
 class AssignmentForm(forms.ModelForm):
     title = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Название'
-            }
-        )
+        label='Название задания:',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Название'})
     )
     description = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Описание'
-            }
-        )
+        label='Описание задания:',
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Описание'})
+    )
+    due_date = forms.DateField(
+        label='Срок сдачи:',
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY-MM-DD'}),
+        input_formats=['%Y-%m-%d']
     )
 
     class Meta:
         model = models.Assignment
-        fields = '__all__'
+        fields = ['title', 'description', 'due_date']
 
 
 class GradeForm(forms.ModelForm):
