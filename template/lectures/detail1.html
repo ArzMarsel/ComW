@@ -64,6 +64,7 @@
    <h5 class="mb-2 text-light"><strong>Дата окончания:</strong> {{ course.end_date }}</h5>
 <h5 class="mb-2 text-light"><strong>Учителя:</strong> {{ course.teachers.last_name }} {{ course.teachers.first_name }}</h5>
    <a href="{% url 'lectures' course.id %}" class="btn btn-warning text-white mt-2">Просмотреть лекции</a><br>
+   <a href="{% url 'assign2' course.id %}" class="btn btn-warning text-white mt-2">Просмотреть задания</a><br>
                         <a href="{% url 'add assign' course.id %}" class="btn btn-warning text-white mt-2"><strong>+</strong> Добавить задание</a>
                         <br>
                         <a href="{% url 'add lecture' course.id %}" class="btn btn-warning text-white mt-2"><strong>+</strong> Добавить лекцию</a>

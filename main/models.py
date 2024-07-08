@@ -45,7 +45,7 @@ class Answer(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     content = models.TextField(verbose_name='answer')
-    file = models.FileField(upload_to='answers/')
+    file = models.FileField(upload_to='answers/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Date of create:')
 
 

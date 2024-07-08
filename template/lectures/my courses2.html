@@ -67,7 +67,7 @@
 <div class="row">
     <div class="col">
         <div id="news-list" class="row">
-            {% for course, image_url in course_with_images %}
+            {% for cors, course, image_url in course_with_images %}
             <div class="col-md-6">
                 <div class="card bg-white mb-5 mt-2 border h-100 d-flex align-items-stretch text-black">
                     {% if image_url %}
@@ -79,6 +79,9 @@
                         <h6 class="card-subtitle mb-2 text-warning">Дата начала: {{ course.start_date }}</h6>
                         <h6 class="card-subtitle mb-2 text-warning">Дата окончания: {{ course.end_date }}</h6>
                         <a href="{% url 'detail2' course.id %}" class="btn btn-warning text-white">Подробнее</a>
+                        <br>
+                           <a href="{% url 'lectures' course.id %}" class="btn btn-warning text-white mt-2">Просмотреть лекции</a><br>
+   <a href="{% url 'assign' course.id %}" class="btn btn-warning text-white mt-2">Просмотреть задания</a><br>
                     </div>
                 </div>
             </div>

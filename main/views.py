@@ -50,7 +50,7 @@ def start(request):
 
 @login_required(login_url='unauthenticated')
 def main(request):
-    prof = Profile.objects.filter(user=request.user)
+    prof = get_object_or_404(Profile, user=request.user)
     courses = Course.objects.all().prefetch_related('courseimage_set')
     course_with_images = [
         (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
@@ -97,29 +97,25 @@ def my_courses(request):
 
 
 @login_required(login_url='unauthenticated')
-def my_courses(request):
+def my_courses2(request):
     prof = Profile.objects.filter(user=request.user)
-    courses = Course.objects.filter(teachers=request.user).prefetch_related('courseimage_set')
+    courses = Connect.objects.filter(user=request.user).prefetch_related('course__courseimage_set')
     course_with_images = [
-        (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
-        for course in courses
+        (i, i.course, i.course.courseimage_set.all()[0].image.url if i.course.courseimage_set.exists() else None)
+        for i in courses
     ]
     return render(request, 'lectures/my courses2.html', {'course_with_images': course_with_images, 'prof': prof})
 
 
 @login_required(login_url='unauthenticated')
-def my_courses2(request):
-    prof = Profile.objects.filter(user=request.user)
-    course1 = Connect.objects.filter(user=request.user).prefetch_related('courseimage_set')
-    course_with_images = [
-        (course.course, course.course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
-        for course in course1
-    ]
-    return render(request, 'lectures/my courses.html', {'course_with_images': course_with_images, 'prof': prof})
+def assignment_list(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    assign = Assignment.objects.filter(course=course)
+    return render(request, 'lectures/assign.html', {'assign': assign, 'course': course})
 
 
 @login_required(login_url='unauthenticated')
-def assignment_list(request, pk):
+def assignment_list2(request, pk):
     course = get_object_or_404(Course, pk=pk)
     assign = Assignment.objects.filter(course=course)
     return render(request, 'lectures/assign.html', {'assign': assign, 'course': course})
