@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django_recaptcha.fields import ReCaptchaField
-from .models import Profile
+from .models import Profile,Assignment
 
 
 class AssignmentForm(forms.ModelForm):
@@ -22,7 +22,7 @@ class AssignmentForm(forms.ModelForm):
     )
 
     class Meta:
-        model = models.Assignment
+        model = Assignment
         fields = ['title', 'description', 'due_date']
 
 
@@ -162,7 +162,7 @@ class LectureForm(forms.ModelForm):
 
     class Meta:
         model = models.Lecture
-        fields = '__all__'
+        exclude = ['course']
 
 
 class AnswerForm(forms.ModelForm):

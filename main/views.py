@@ -139,6 +139,7 @@ def add_assign(request, pk):
     course = get_object_or_404(Course, pk=pk)
     if request.method == 'POST':
         form = AssignmentForm(request.POST, request.FILES)
+        print(form.errors)
         if form.is_valid():
             assignment = form.save(commit=False)
             assignment.course = course
@@ -146,7 +147,7 @@ def add_assign(request, pk):
             return redirect('my courses')
     else:
         form = AssignmentForm()
-
+        print(form.errors)
     return render(request, 'lectures/add assign.html', {'form': form})
 
 
@@ -167,7 +168,7 @@ def add_answer(request, pk):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         form.student = get_object_or_404(User, user=request.user)
-        form.assignment = get_object_or_404(Assignment, pk=pk1)
+        form.assignment = get_object_or_404(Assignment, pk=pk)
         if form.is_valid():
             form.save()
     else:
@@ -177,13 +178,19 @@ def add_answer(request, pk):
 
 @login_required(login_url="unauthenticated")
 def add_lecture(request, pk):
+    course = get_object_or_404(Course, pk=pk)
     if request.method == 'POST':
-        form = LectureForm(request.POST)
-        form.course = get_object_or_404(Course, pk=pk)
+        form = LectureForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            lecture = form.save(commit=False)
+            lecture.course = course
+            lecture.save()
+            return redirect('my courses')
+        else:
+            print(form.errors)
     else:
         form = LectureForm()
+
     return render(request, 'lectures/add lecture.html', {'form': form})
 
 

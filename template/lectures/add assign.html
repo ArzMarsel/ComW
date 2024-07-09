@@ -54,6 +54,7 @@
                 {% csrf_token %}
                 <p>{{ form.title }}</p>
                 <p>{{ form.description }}</p>
+                <p>{{ form.due_date }}</p>
                 <button type="submit" class="btn btn-warning text-light">Добавить</button>
             </form>
         </div>

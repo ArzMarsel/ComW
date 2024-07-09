@@ -42,7 +42,7 @@
     <div class="form-container text-center">
         <div class="bg-white login-form-container">
             <h1 class="text-warning"><strong>Добавить лекцию</strong></h1>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <p>{{ form.title }}</p>
             <p style="height: 50%">{{ form.lecture_video }}</p>
