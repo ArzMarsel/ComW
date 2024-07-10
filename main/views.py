@@ -118,7 +118,7 @@ def assignment_list(request, pk):
 def assignment_list2(request, pk):
     course = get_object_or_404(Course, pk=pk)
     assign = Assignment.objects.filter(course=course)
-    return render(request, 'lectures/assign.html', {'assign': assign, 'course': course})
+    return render(request, 'lectures/assign2.html', {'assign': assign, 'course': course})
 
 
 @login_required(login_url="unauthenticated")

@@ -182,8 +182,8 @@ class AnswerForm(forms.ModelForm):
             }
         )
     )
-    created_at = forms.DateTimeField(
-        widget=forms.DateTimeInput(format="%Y-%m-%d", attrs={"type": "data"}),
+    created_at = forms.DateField(
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "data"}),
         input_formats=["%Y-%m-%d"])
 
     class Meta:

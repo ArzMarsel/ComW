@@ -66,17 +66,17 @@
 <div class="row">
     <div class="col">
         <div id="news-list" class="row">
-            {% for assign in assign %}
+            {% for answer in answer %}
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header text-warning">
-                        Задание №{{ assign.id }}
+                        Ответ №{{ answer.id }}
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ assign.title }}</h5>
-                        <p class="card-text text-warning">{{ assign.description }}</p>
-                        <h6 class="card-text text-secondary">{{ assign.due_date }}</h6>
-                        <a href="{% url 'answer' assign.id %}" class="btn btn-warning text-white mt-2">Просмотреть ответы</a><br>
+                        <h5 class="card-title">Ответ от:<strong> {{ answer.student.username }}</strong></h5>
+                        <p class="card-text text-warning">{{ answer.content }}</p>
+                        <h6 class="card-text text-secondary">{{ assign.created_at }}</h6>
+                        <a href="{% url 'add grade' answer.id %}" class="btn btn-warning text-light">Выставить оценку</a>
                     </div>
                 </div>
             {% endfor %}

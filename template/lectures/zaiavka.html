@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Задания</title>
+    <title>Лекции</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
@@ -25,7 +25,7 @@
     <nav class="navbar navbar-expand-lg bg-white">
         <div class="container-fluid">
             <img class="navbar-brand" src="https://img.freepik.com/free-vector/hand-drawn-high-school-logo-design_23-2149667303.jpg?size=338&ext=jpg&ga=GA1.1.1518270500.1717372800&semt=ais_user" style="width: 8%">
-            <a class="navbar-brand text-warning" href="#"><strong>Задания</strong></a>
+            <a class="navbar-brand text-warning" href="#"><strong>Лекции</strong></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -66,23 +66,21 @@
 <div class="row">
     <div class="col">
         <div id="news-list" class="row">
-            {% for assign in assign %}
-            <div class="col-md-6">
+            {% for zaiavka in zaiavka %}
+            <div class="col-md-6 mt-3">
                 <div class="card">
-                    <div class="card-header text-warning">
-                        Задание №{{ assign.id }}
+                    <div class="card-header">
+                        Заявка №{{ zaiavka.id }}
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ assign.title }}</h5>
-                        <p class="card-text text-warning">{{ assign.description }}</p>
-                        <h6 class="card-text text-secondary">{{ assign.due_date }}</h6>
-                        <a href="{% url 'answer' assign.id %}" class="btn btn-warning text-white mt-2">Просмотреть ответы</a><br>
+                        <h5 class="card-text">Заявка от {{ zaiavka.user.username }}'а(-ы)</h5>
+                        <a href="{% url 'add connect' zaiavka.id %}" class="btn btn-warning text-light">Принять заявку</a>
+                            </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
         </div>
-    </div>
 </div>
 </body>
 </html>
