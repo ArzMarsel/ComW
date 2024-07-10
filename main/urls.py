@@ -21,4 +21,7 @@ urlpatterns = [
     path('courses1/<int:pk>/assign/add/', views.add_assign, name='add assign'),
     path('courses1/<int:pk>/lectures/add/', views.add_lecture, name='add lecture'),
     path('courses2/<int:pk>/answers/add/', views.add_answer, name='add answer'),
+    path('courses/<int:pk>/zaiavka', views.zaiavka, name='zaiavka'),
+    path('courses2/<int:pk>/zaiavka_list/', views.zaiavka_list, name='zaiavka_list'),
+    path('courses1/<int:pk>/connect/add/', views.add_connect, name='add connect')
 ]

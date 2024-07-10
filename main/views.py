@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.checks import Error
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import LoginForm, SignUpForm, AssignmentForm, LectureForm, GradeForm, AnswerForm
-from .models import Course, Lecture, Answer, Grade, Assignment, Connect, Profile
+from .models import Course, Lecture, Answer, Grade, Assignment, Connect, Profile, Zaiavka
 
 
 def unauthenticated(request):
@@ -167,7 +167,7 @@ def add_grade(request, pk):
 def add_answer(request, pk):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
-        form.student = get_object_or_404(User, user=request.user)
+        form.student = get_object_or_404(User, pk=request.user.id)
         form.assignment = get_object_or_404(Assignment, pk=pk)
         if form.is_valid():
             form.save()
@@ -199,3 +199,26 @@ def lectures_list(request, pk):
     course = get_object_or_404(Course, pk=pk)
     lectures = Lecture.objects.filter(course=course)
     return render(request, 'lectures/lectures.html', {'course': course, 'lectures': lectures})
+
+
+@login_required(login_url="unauthenticated")
+def zaiavka(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    Zaiavka.objects.create(user=request.user, course=course, mark=True)
+    return redirect("main")
+
+
+@login_required(login_url="unauthenticated")
+def zaiavka_list(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    zaiavka = Zaiavka.objects.filter(course=course, mark=True)
+    return render(request, 'lectures/zaiavka.html', {"zaiavka" : zaiavka})
+
+
+@login_required(login_url="unauthenticated")
+def add_connect(request, pk):
+    zaiavka = get_object_or_404(Zaiavka, pk=pk)
+    Connect.objects.create(course=zaiavka.course, user=zaiavka.user)
+    zaiavka.mark = False
+    zaiavka.save()
+    return redirect("my courses")

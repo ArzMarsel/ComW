@@ -174,14 +174,17 @@ class AnswerForm(forms.ModelForm):
             }
         )
     )
-    content = forms.FileField(
-        widget=forms.FileInput(
+    content = forms.CharField(
+        widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Content'
+                'placeholder': 'Comment'
             }
         )
     )
+    created_at = forms.DateTimeField(
+        widget=forms.DateTimeInput(format="%Y-%m-%d", attrs={"type": "data"}),
+        input_formats=["%Y-%m-%d"])
 
     class Meta:
         model = models.Answer

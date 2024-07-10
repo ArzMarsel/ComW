@@ -57,5 +57,6 @@
    <h5 class="mb-2 text-light"><strong>Описание курса:</strong> {{ course.description }}</h5>
    <h5 class="mb-2 text-light "><strong>Дата начала:</strong> {{ course.start_date }}</h5>
    <h5 class="mb-2 text-light"><strong>Дата окончания:</strong> {{ course.end_date }}</h5>
-<h5 class="mb-2 text-light"><strong>Учитель:</strong> {{ course.teachers.last_name }} {{ course.teachers.first_name }}</h5>
+<h5 class="mb-2 text-light"><strong>Учитель:</strong> {{ course.teachers.username }}</h5>
 <h5 class="mb-2 text-light"><STRONG>Лекции:</STRONG></h5>
+   <a class="btn btn-warning text-light" href="{% url 'zaiavka' course.pk %}">Подать заявку</a>

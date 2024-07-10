@@ -57,3 +57,9 @@ class Profile(models.Model):
         ('student', 'Ученик')
     )
     user_status = models.CharField(choices=status_choices, max_length=20)
+
+
+class Zaiavka(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    mark = models.BooleanField()

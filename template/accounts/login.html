@@ -46,7 +46,7 @@
             {% csrf_token %}
             <p>{{ form.username }}</p>
             <p>{{ form.password1 }}</p>
-                <button type="submit" class="btn btn-warning">Войти</button>
+                <button type="submit" class="btn btn-warning text-light">Войти</button>
             </form>
             <p>Нет аккаунта? <a href="{% url 'register' %}" class="link-warning">зарегистрируйтесь</a></p>
         </div>
