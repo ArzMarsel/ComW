@@ -46,7 +46,7 @@ class GradeForm(forms.ModelForm):
 
     class Meta:
         model = models.Grade
-        fields = '__all__'
+        fields = ['grade', 'comment']
 
 
 class SignUpForm(UserCreationForm):

@@ -133,31 +133,18 @@ def answers_list(request, pk):
 
 @login_required(login_url="unauthenticated")
 def add_assign(request, pk):
-    course = get_object_or_404(Course, pk=pk)
     if request.method == 'POST':
         form = AssignmentForm(request.POST, request.FILES)
         print(form.errors)
         if form.is_valid():
             assignment = form.save(commit=False)
-            assignment.course = course
+            assignment.course = get_object_or_404(Course, pk=pk)
             assignment.save()
             return redirect('my courses')
     else:
         form = AssignmentForm()
         print(form.errors)
     return render(request, 'lectures/add assign.html', {'form': form})
-
-
-@login_required(login_url="unauthenticated")
-def add_grade(request, pk):
-    if request.method == 'POST':
-        form = GradeForm(request.POST)
-        form.course = get_object_or_404(Course, pk=pk)
-        if form.is_valid():
-            form.save()
-    else:
-        form = GradeForm()
-    return render(request, 'lectures/add grade.html', {'form': form})
 
 
 @login_required(login_url="unauthenticated")
