@@ -166,7 +166,7 @@ class LectureForm(forms.ModelForm):
 
 
 class AnswerForm(forms.ModelForm):
-    answer = forms.FileField(
+    file = forms.FileField(
         widget=forms.FileInput(
             attrs={
                 'class': 'form-control',
@@ -182,10 +182,7 @@ class AnswerForm(forms.ModelForm):
             }
         )
     )
-    created_at = forms.DateField(
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "data"}),
-        input_formats=["%Y-%m-%d"])
 
     class Meta:
         model = models.Answer
-        fields = '__all__'
+        fields = ['file', 'content']

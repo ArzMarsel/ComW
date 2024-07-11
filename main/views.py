@@ -163,24 +163,34 @@ def add_grade(request, pk):
 @login_required(login_url="unauthenticated")
 def add_answer(request, pk):
     if request.method == 'POST':
-        form = AnswerForm(request.POST)
+
+        form = AnswerForm(request.POST, request.FILES)
+
+        print(form.errors)
         form.student = get_object_or_404(User, pk=request.user.id)
         form.assignment = get_object_or_404(Assignment, pk=pk)
         if form.is_valid():
+            answer = form.save(commit=False)
+            answer.student = request.user
+            answer.assignment = get_object_or_404(Assignment, pk=pk)
+            answer.save()
             form.save()
+            return redirect('main')
     else:
+
         form = AnswerForm()
+        print(form.errors)
     return render(request, 'lectures/add answer.html', {'form': form})
 
 
 @login_required(login_url="unauthenticated")
 def add_lecture(request, pk):
-    course = get_object_or_404(Course, pk=pk)
     if request.method == 'POST':
         form = LectureForm(request.POST, request.FILES)
+        form.course = get_object_or_404(Course, pk=pk)
         if form.is_valid():
             lecture = form.save(commit=False)
-            lecture.course = course
+            lecture.course = get_object_or_404(Course, pk=pk)
             lecture.save()
             return redirect('my courses')
         else:
@@ -227,7 +237,7 @@ def add_connect(request, pk):
 def add_grade(request, pk):
     answer = get_object_or_404(Answer, pk=pk)
     if request.method == 'POST':
-        form = GradeForm(request.POST, request.FILES)
+        form = GradeForm(request.POST)
         if form.is_valid():
             grade = form.save(commit=False)
             grade.student = answer.student
