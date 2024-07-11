@@ -28,8 +28,16 @@ class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 
-class Grade(models.Model):
+class Answer(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    content = models.TextField(verbose_name='answer')
+    file = models.FileField(upload_to='answers/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Date of create:')
+
+
+class Grade(models.Model):
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     grade = models.PositiveIntegerField('Оценка', null=True, blank=True)
     comment = models.TextField('Комментарии', null=True, blank=True)
@@ -39,14 +47,6 @@ class Grade(models.Model):
 class Connect(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='course:', blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='user:')
-
-
-class Answer(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    content = models.TextField(verbose_name='answer')
-    file = models.FileField(upload_to='answers/', blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Date of create:')
 
 
 class Profile(models.Model):

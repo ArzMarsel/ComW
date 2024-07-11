@@ -18,6 +18,10 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        .video-banner {
+            height: 100px;
+            width: 100px;
+        }
     </style>
 </head>
 <body>
@@ -34,29 +38,16 @@
                     <li class="nav-item">
                         <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
                     </li>
-                    {% if user.user_status == 'teacher' %}
-                    <li class="nav-item">
-                        <a class="nav-link text-warning" href="{% url 'my courses' %}"><strong>Мои курсы</strong></a>
-                    </li>
-                    {% endif %}
-                    {% if user.user_status == 'student' %}
-                    <li class="nav-item">
-                        <a class="nav-link text-warning" href="{% url 'my courses2' %}"><strong>Мои курсы</strong></a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>Ещё</strong></a>
-                        <ul class="dropdown-menu">
-                            {% if user.is_authenticated %}
-                            <li><a class="dropdown-item text-warning" href="{% url 'logout' %}"><strong>Выход</strong></a></li>
-                            {% else %}
-                            <li><a class="dropdown-item text-warning" href="{% url 'register' %}"><strong>Регистрация</strong></a></li>
-                            <li><a class="dropdown-item text-warning" href="{% url 'login' %}"><strong>Вход</strong></a></li>
-                            {% endif %}
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-warning" href="{% url 'about us' %}"><strong>О нас</strong></a></li>
-                        </ul>
-                    </li>
+                    {% if prof.user_status == "teacher" %}
+        <li class="nav-item">
+          <a class="nav-link text-warning" href="{% url 'my courses' %}"><strong>Мои курсы</strong></a>
+        </li>
+          {% endif %}
+          {% if prof.user_status == "student" %}
+          <li class="nav-item">
+              <a class="nav-link text-warning" href="{% url 'my courses2' %}"><strong>Мои курсы</strong></a>
+          </li>
+          {% endif %}
                 </ul>
             </div>
         </div>
@@ -68,20 +59,23 @@
         <div id="news-list" class="row">
             {% for lectures in lectures %}
             <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
+                <div class="card bg-white mb-5 mt-2 border h-100 d-flex align-items-stretch text-black">
+                    <div class="card-header text-warning">
                         Лекция №{{ lectures.id }}
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ lectures.title }}</h5>
-                        <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item" src="{{ lecture.lecture_video }}" allowfullscreen></iframe>
-                            </div>
+                        <div class="video-banner">
+                            <video autoplay muted loop>
+        <source src="{{ lectures.lecture_video }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
                     </div>
                 </div>
+                       </div>
+            </div>
             {% endfor %}
-        </div>
-        </div>
+         </div>
     </div>
 </div>
 </body>

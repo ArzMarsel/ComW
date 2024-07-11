@@ -34,21 +34,6 @@
         <li class="nav-item">
           <a class="nav-link text-warning" href="{% url 'main' %}"><strong>Дом</strong></a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>
-            Eщё
-          </strong></a>
-          <ul class="dropdown-menu">
-              {% if user.is_authenticated %}
-              <li><a class="dropdown-item text-warning" href="{% url 'logout' %}"><strong>Выход</strong></a></li>
-              {% else %}
-            <li><a class="dropdown-item text-warning" href="{% url 'register' %}"><strong>Регистрация</strong></a></li>
-            <li><a class="dropdown-item text-warning" href="{% url 'login' %}"><strong>Вход</strong></a></li>
-              {% endif %}
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item text-warning" href="{% url 'about us' %}"><strong>О нас</strong></a></li>
-          </ul>
-        </li>
       </ul>
     </div>
   </div>

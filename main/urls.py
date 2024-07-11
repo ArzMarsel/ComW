@@ -23,5 +23,6 @@ urlpatterns = [
     path('courses2/<int:pk>/answers/add/', views.add_answer, name='add answer'),
     path('courses/<int:pk>/zaiavka', views.zaiavka, name='zaiavka'),
     path('courses2/<int:pk>/zaiavka_list/', views.zaiavka_list, name='zaiavka_list'),
-    path('courses1/<int:pk>/connect/add/', views.add_connect, name='add connect')
+    path('courses1/<int:pk>/connect/add/', views.add_connect, name='add connect'),
+    path('courses2/<int:pk>/answers/add/', views.add_grade, name='add grade')
 ]

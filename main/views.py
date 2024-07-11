@@ -87,7 +87,7 @@ def course_detail2(request, pk):
 
 @login_required(login_url='unauthenticated')
 def my_courses(request):
-    prof = Profile.objects.filter(user=request.user)
+    prof = get_object_or_404(Profile, user=request.user)
     courses = Course.objects.filter(teachers=request.user).prefetch_related('courseimage_set')
     course_with_images = [
         (course, course.courseimage_set.all()[0].image.url if course.courseimage_set.exists() else None)
@@ -109,29 +109,26 @@ def my_courses2(request):
 
 @login_required(login_url='unauthenticated')
 def assignment_list(request, pk):
+    prof = get_object_or_404(Profile, user=request.user)
     course = get_object_or_404(Course, pk=pk)
     assign = Assignment.objects.filter(course=course)
-    return render(request, 'lectures/assign.html', {'assign': assign, 'course': course})
+    return render(request, 'lectures/assign.html', {'assign': assign, 'course': course, 'prof': prof})
 
 
 @login_required(login_url='unauthenticated')
 def assignment_list2(request, pk):
+    prof = get_object_or_404(Profile, user=request.user)
     course = get_object_or_404(Course, pk=pk)
     assign = Assignment.objects.filter(course=course)
-    return render(request, 'lectures/assign2.html', {'assign': assign, 'course': course})
-
-
-@login_required(login_url="unauthenticated")
-def connect_to_corsina(request):
-    cors = Connect.objects.filter(user=request.user)
-    return render(request, 'lectures/corsina.html', {'cors': cors})
+    return render(request, 'lectures/assign2.html', {'assign': assign, 'course': course, 'prof': prof})
 
 
 @login_required(login_url='unauthenticated')
 def answers_list(request, pk):
+    prof = get_object_or_404(Profile, user=request.user)
     assign = get_object_or_404(Assignment, pk=pk)
     answer = Answer.objects.filter(assignment=assign)
-    return render(request, 'lectures/answers.html', {'answer': answer, 'assign': assign})
+    return render(request, 'lectures/answers.html', {'answer': answer, 'assign': assign, 'prof': prof})
 
 
 @login_required(login_url="unauthenticated")
@@ -196,9 +193,10 @@ def add_lecture(request, pk):
 
 @login_required(login_url="unauthenticated")
 def lectures_list(request, pk):
+    prof = get_object_or_404(Profile, user=request.user)
     course = get_object_or_404(Course, pk=pk)
     lectures = Lecture.objects.filter(course=course)
-    return render(request, 'lectures/lectures.html', {'course': course, 'lectures': lectures})
+    return render(request, 'lectures/lectures.html', {'course': course, 'lectures': lectures, 'prof': prof})
 
 
 @login_required(login_url="unauthenticated")
@@ -210,9 +208,10 @@ def zaiavka(request, pk):
 
 @login_required(login_url="unauthenticated")
 def zaiavka_list(request, pk):
+    prof = get_object_or_404(Profile, user=request.user)
     course = get_object_or_404(Course, pk=pk)
     zaiavka = Zaiavka.objects.filter(course=course, mark=True)
-    return render(request, 'lectures/zaiavka.html', {"zaiavka" : zaiavka})
+    return render(request, 'lectures/zaiavka.html', {"zaiavka" : zaiavka, 'prof': prof})
 
 
 @login_required(login_url="unauthenticated")
@@ -222,3 +221,21 @@ def add_connect(request, pk):
     zaiavka.mark = False
     zaiavka.save()
     return redirect("my courses")
+
+
+@login_required(login_url="unauthenticated")
+def add_grade(request, pk):
+    answer = get_object_or_404(Answer, pk=pk)
+    if request.method == 'POST':
+        form = GradeForm(request.POST, request.FILES)
+        if form.is_valid():
+            grade = form.save(commit=False)
+            grade.student = answer.student
+            grade.answer = answer
+            grade.save()
+            return redirect('my courses')
+        else:
+            print(form.errors)
+    else:
+        form = GradeForm()
+    return render(request, 'lectures/add grade.html', {'form': form})
