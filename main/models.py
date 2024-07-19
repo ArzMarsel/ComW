@@ -16,7 +16,7 @@ class CourseImage(models.Model):
 
 
 class Lecture(models.Model):
-    lecture_video = models.FileField(upload_to='lectures/', max_length=5*1024*1024)
+    lecture_video = models.TextField('Video:')
     title = models.CharField(max_length=100, verbose_name='Title:')
     course = models.ForeignKey(Course, verbose_name='Course:', on_delete=models.CASCADE)
 
